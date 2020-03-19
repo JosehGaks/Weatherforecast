@@ -20,14 +20,7 @@
         tools:layout_editor_absoluteX="192dp"
         tools:layout_editor_absoluteY="0dp"/>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-     - Today's date                                                                              -
-     -                                                                                           -
-     - You may notice that the line android:fontFamily="sans-serif" is highlighted in yellow.    -
-     - The reason for the highlighted line is that the fontFamily attribute is not available on  -
-     - versions of Android before 16, and our minimum supported version of Android is 10. This   -
-     - particular issue won                                          -                           -
-     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
