@@ -110,7 +110,7 @@ public class QueryUtils {
 
                 JSONObject currentWeather = weatherArray.getJSONObject(i);
 
-                //long time = currentWeather.getLong("dt");
+                //long time = currentWeather.getLong
                 long time = currentWeather.getLong("dt");
 
                 JSONObject details = currentWeather.getJSONObject("main");
