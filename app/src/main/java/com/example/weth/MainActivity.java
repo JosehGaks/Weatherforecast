@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public class FetchWeatherTask extends AsyncTask<String,Void,List<Weather>> {
-
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected List<Weather> doInBackground(String... urls) {
