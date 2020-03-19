@@ -68,7 +68,7 @@ public class QueryUtils {
                 urlConnection.disconnect();
             }
             if (inputStream != null){
-                // Closing the input stream could throw an IOException, which is why
+                // Closing the input stream could throw an IOException
                 // the makeHttpRequest(URL url) method signature specifies than an IOException
                 inputStream.close();
             }
