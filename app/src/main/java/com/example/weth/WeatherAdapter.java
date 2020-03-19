@@ -102,7 +102,7 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         //magnitudeCircle.setColor(magnitudeColor);
 
         //TextView LowTempView = (TextView) listItemView.findViewById(R.id.low_temperature);
-        //primaryLocationView.setText(primaryLocation);
+
 
         //TextView locationOffsetView = (TextView) listItemView.findViewById(R.id.location_offset);
         //locationOffsetView.setText(locationOffset);
