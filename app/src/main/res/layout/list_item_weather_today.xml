@@ -26,7 +26,7 @@
      - You may notice that the line android:fontFamily="sans-serif" is highlighted in yellow.    -
      - The reason for the highlighted line is that the fontFamily attribute is not available on  -
      - versions of Android before 16, and our minimum supported version of Android is 10. This   -
-     - particular issue won't break the app, but you should note that this attribute will be     -                           -
+     - particular issue won                                          -                           -
      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
     <TextView
         android:id="@+id/date"
