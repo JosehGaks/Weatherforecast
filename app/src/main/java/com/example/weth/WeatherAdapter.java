@@ -98,7 +98,6 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         // Get the appropriate background color based on the current earthquake magnitude
        // int magnitudeColor = getMagnitudeColor(currentEarthquake.getmMagnitude());
 
-        //TextView LowTempView = (TextView) listItemView.findViewById(R.id.low_temperature);
 
 
         //TextView locationOffsetView = (TextView) listItemView.findViewById(R.id.location_offset);
