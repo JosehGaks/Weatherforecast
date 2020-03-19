@@ -97,7 +97,7 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
 
 
         //TextView locationOffsetView = (TextView) listItemView.findViewById(R.id.location_offset);
-        //locationOffsetView.setText(locationOffset);
+
 
         // Create a new Date object from the time in milliseconds of the earthquake
         Date dateObject = new Date(currentWeather.getmTimeInMilliseconds());
