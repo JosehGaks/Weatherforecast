@@ -6,38 +6,40 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.weth.QueryUtils;
-import com.example.weth.R;
-import com.example.weth.Weather;
-import com.example.weth.WeatherAdapter;
+import com.example.weth.ui.WeatherLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
-    private WeatherAdapter mAdapter;
+    private WetAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private ProgressBar mLoadingIndicator;
 
+    private ArrayList<Weather> weathers = new ArrayList<Weather>();
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -63,65 +66,60 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        ListView weatherListView = (ListView) findViewById(R.id.list);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.loadingIndicator);
 
-        mAdapter = new WeatherAdapter(this,new ArrayList<Weather>());
+        showView();
 
-        weatherListView.setAdapter(mAdapter);
-
-        weatherListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Weather currentWeather = mAdapter.getItem(position);
-
-                double maxTemp =currentWeather.getmMaxTemperature();
-                double minTemp = currentWeather.getmMinTemperature();
-                String description = currentWeather.getmWeatherDescription();
-                int humidity = currentWeather.getmHumidity();
-                int pressure = currentWeather.getmPressure();
-               int imageResourceId = currentWeather.getmImageResourceId();
-
-                Bundle extras = new Bundle();
-
-                extras.putDouble("maxTemp",maxTemp);
-                extras.putDouble("minTemp",minTemp);
-                extras.putString("description",description);
-                extras.putInt("humidity",humidity);
-                extras.putInt("pressure",pressure);
-                extras.putInt("imageResource",imageResourceId);
-
-                Intent i = new Intent(MainActivity.this,MoreInfoActivity.class);
-                i.putExtras(extras);
-                startActivity(i);
-
-            }
-        });
-
-        FetchWeatherTask task = new FetchWeatherTask();
+        WeatherAsyncTask task = new WeatherAsyncTask();
         task.execute(WEATHER_REQUEST_URL);
+
+
+
     }
 
+    public void showView(){
+        mAdapter = new WetAdapter(this,weathers);
 
-    public class FetchWeatherTask extends AsyncTask<String,Void,List<Weather>> {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rvContacts);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+//    @Override
+//    public void onItemClick(int position) {
+//
+//    }
+
+
+    private class WeatherAsyncTask extends AsyncTask<String,Void,List<Weather>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected List<Weather> doInBackground(String... urls) {
-            if (urls.length < 1 || urls[0] == null){
-                return null;
-            }
             List<Weather> result = QueryUtils.fetchWeatherData(urls[0]);
             return result;
         }
 
         @Override
-        protected void onPostExecute(List<Weather> data) {
-            mAdapter.clear();
-            if (data != null && !data.isEmpty()){
-                mAdapter.addAll(data);
+        protected void onPostExecute(List<Weather> weathers) {
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
+            mAdapter.setmWeather(null);
+
+            if (weathers != null && !weathers.isEmpty()){
+                mAdapter.setmWeather((ArrayList<Weather>) weathers);
             }
         }
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
