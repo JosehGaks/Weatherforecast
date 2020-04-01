@@ -20,19 +20,19 @@ public class MoreInfoActivity extends AppCompatActivity {
 
 
 
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
+        if (getIntent().hasExtra("selectedWeather")){
+            Weather weather = getIntent().getParcelableExtra("selectedWeather");
 
-        if (extras != null){
-                double maxTemperature = extras.getDouble("maxTemp");
-                double minTemperature = extras.getDouble("minTemp");
-               int imageRes = extras.getInt("imageResource");
+                double maxTemperature = weather.getmMaxTemperature();
+                double minTemperature = weather.getmMinTemperature();
+               int imageRes = weather.getmImageResourceId();
 
-                Integer humidity = extras.getInt("humidity");
-                int pressure = extras.getInt("pressure");
-                String description = extras.getString("description");
+                Integer humidity =weather.getmHumidity();
+                int pressure = weather.getmPressure();
+                String description = weather.getmWeatherDescription();
 
             Log.e("moreinfo",String.valueOf(imageRes));
+
                 TextView desc =  (TextView) findViewById(R.id.description);
                 desc.setText(description);
 
