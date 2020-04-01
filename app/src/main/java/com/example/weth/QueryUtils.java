@@ -106,10 +106,16 @@ public class QueryUtils {
             JSONArray weatherArray = baseJsonResponse.getJSONArray("list");
             for (int i = 0; i < weatherArray.length(); i++){
 
+                String date;
+                String highAndLow;
+                long dateTimeMillis;
 
                 JSONObject currentWeather = weatherArray.getJSONObject(i);
 
-                //long time = currentWeather.g
+
+
+                dateTimeMillis = startDay + WeatherDateUtils.DAY_IN_MILLIS * i;
+                //date = WeatherDateUtils.getFriendlyDateString(context,dateTimeMillis,false);
                 long time = currentWeather.getLong("dt");
 
                 JSONObject details = currentWeather.getJSONObject("main");
@@ -129,7 +135,7 @@ public class QueryUtils {
                int newId = Integer.parseInt(id);
 
 
-                Weather weather = new Weather(temp_max,temp_min,description,humidity,pressure,newId,time);
+                Weather weather = new Weather(temp_max,temp_min,description,humidity,pressure,newId,String.valueOf(time));
                 weathers.add(weather);
             }
 

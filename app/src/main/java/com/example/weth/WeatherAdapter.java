@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -19,14 +18,8 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
     public WeatherAdapter(@NonNull Context context, @NonNull List<Weather> weathers) {
         super(context, 0, weathers);
     }
-    char degrees = '\u00B0';
 
-    private String formatTemp(double temperature){
-        double newTemperature = temperature - 273.15;
-        DecimalFormat magnitudeFormat = new DecimalFormat("0");
-        return magnitudeFormat.format(newTemperature)+degrees;
 
-    }
 
 
    private int getSmallIconResourceForWeatherCondition(int weatherId) {
@@ -72,19 +65,19 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
 
 
 
-        TextView highTempView = (TextView) listItemView.findViewById(R.id.high_temperature);
-        String formattedHighTemp =formatTemp(currentWeather.getmMaxTemperature());
+        TextView highTempView = (TextView) listItemView.findViewById(R.id.maxtemp);
+        String formattedHighTemp = WeatherUtils.formatTemp(currentWeather.getmMaxTemperature());
         highTempView.setText(formattedHighTemp);
 
-        TextView lowTempView = (TextView) listItemView.findViewById(R.id.low_temperature);
-        String formattedLowTemp =formatTemp(currentWeather.getmMinTemperature());
+        TextView lowTempView = (TextView) listItemView.findViewById(R.id.mintemp);
+        String formattedLowTemp = WeatherUtils.formatTemp(currentWeather.getmMinTemperature());
         lowTempView.setText(formattedLowTemp);
 
-        TextView weatherDescription = (TextView) listItemView.findViewById(R.id.weather_description);
+        TextView weatherDescription = (TextView) listItemView.findViewById(R.id.description);
         String description = currentWeather.getmWeatherDescription();
         weatherDescription.setText(description);
 
-        ImageView icon = (ImageView) listItemView.findViewById(R.id.weather_icon);
+        ImageView icon = (ImageView) listItemView.findViewById(R.id.wet_icon);
         icon.setImageResource(getSmallIconResourceForWeatherCondition(currentWeather.getmImageResourceId()));
 
         // Set the proper background color on the magnitude circle.
@@ -100,7 +93,7 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
 
 
         // Create a new Date object from the time in milliseconds of the earthquake
-        Date dateObject = new Date(currentWeather.getmTimeInMilliseconds());
+        Date dateObject = new Date(currentWeather.getmDate());
 
        TextView dateView = (TextView) listItemView.findViewById(R.id.date);
        String formattedDate = formatDate(dateObject);
@@ -125,4 +118,6 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
         return dateFormat.format(dateObject);
     }
+
+
 }
